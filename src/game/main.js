@@ -319,7 +319,7 @@ game.module(
             //Explosion animation completed, the boom will be destroyed 
             this.sprite.anims.doexplode.onComplete = function() {
 		    ths.sprite.remove();
-            ths.body.remove();
+                     ths.body.remove();
 			game.scene.stage.removeChild(ths);
             };
             
@@ -331,8 +331,6 @@ game.module(
 			this.body.position.set(x, y);
 			var shape = new game.Rectangle(this.sheet.width, this.sheet.height);
 			this.body.addShape(shape);
-			this.body.collisionGroup = game.Body.BOOM;
-			this.body.collideAgainst = [game.Body.PLAYER];
 			this.body.addTo(game.scene.world);
 			this.body.collide = this.collide.bind(this);
 		},
@@ -356,8 +354,6 @@ game.module(
 			this.body.position.x = x;
 			this.body.position.y = y;
 			this.body.addShape(shape);
-			this.body.collisionGroup = game.Body.WALL;
-			this.body.collideAgainst = [game.Body.PLAYER, game.Body.ENEMY];
 			this.body.static = true;
 			this.body.addTo(game.scene.world);
 		}
