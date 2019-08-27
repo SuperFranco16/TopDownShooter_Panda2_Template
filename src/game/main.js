@@ -39,7 +39,7 @@ game.module(
 			this.blackscreen.alpha = 0;
 			this.blackscreen.drawRect(0, 0, game.width, game.height);
 			
-            //Score
+            //Score, When you kill the enemy, you get 10 score.
 			this.score = 0;
 			this.scoretxt = new game.SystemText('Score : ' + this.score);
 			this.scoretxt.size = 36;
@@ -53,13 +53,14 @@ game.module(
 			new game.Dialogue(16, 110, '-Mouse to aim and shoot');      
       
       
-            //Camera
+            //Camera Follow Player
 			this.camera = new game.Camera(this.player.sprite);
 			this.camera.position.set(this.player.sprite);
 			this.camera.limit.x = 0;
 			this.camera.limit.y = 0;
 			this.camera.limit.width = game.width - 500;
 			this.camera.limit.height = game.height + 200;
+            this.camera.acceleration = 20;
 			this.camera.addTo(this.container);
 		},
 		keydown: function(key) {
@@ -307,15 +308,24 @@ game.module(
 	});
 	game.createClass('Explosion', {
 		init: function(x, y) {
+            var ths = this;
 			this.sheet = new game.SpriteSheet('explosion.png', 256, 256);
 			this.sprite = new game.Animation(this.sheet.textures);
-			this.sprite.addAnim('play', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], {
+			this.sprite.addAnim('doexplode', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], {
 				speed: 30,
 				loop: false
 			});
+            
+            //Explosion animation completed, the boom will be destroyed 
+            this.sprite.anims.doexplode.onComplete = function() {
+		    ths.sprite.remove();
+            ths.body.remove();
+			game.scene.stage.removeChild(ths);
+            };
+            
 			this.sprite.anchorCenter();
 			this.sprite.position.set(x, y);
-			this.sprite.play('play');
+			this.sprite.play('doexplode');
 			this.body = new game.Body();
 			this.body.mass = 0;
 			this.body.position.set(x, y);
@@ -335,13 +345,6 @@ game.module(
 				game.scene.player.hurt();
 			}
 			return true;
-		},
-		update: function() {
-			if (this.sprite.texture == this.sheet.textures[15]) {
-				this.sprite.remove();
-				this.body.remove();
-				game.scene.stage.removeChild(this);
-			}
 		}
 	});
 	game.createClass('Wall', {
