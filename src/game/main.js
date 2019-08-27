@@ -115,25 +115,6 @@ game.module(
 			ship4bullet.body.velocity.y = 2000 * Math.sin(angle - Math.PI);
 			this.sprite.swap(ship4bullet);
 		},
-		hurt: function() {
-			var ths = this;
-			if (this.immortal == false) {
-				this.immortal = true;
-				this.healthbarHP = this.healthbarHP - this.hurtHP;
-				var total = this.healthbar_MAX_width - ((this.healthbarMAXHP - this.hurtHP) * (this.healthbar_MAX_width / 100) / (this.healthbarMAXHP / 100));
-				var hurt = new game.Tween(this.healthbar);
-				hurt.to({
-					width: ths.healthbar.width - total
-				}, 100);
-				hurt.start();
-				var player = this;
-				this.sprite.tint = '#ffffff';
-				game.Timer.add(300, function() {
-					player.player.tint = '';
-					player.immortal = false;
-				});
-			}
-		},
 		dead: function() {
 			var ths = this;
 			if (this.healthbarHP <= 0) {
