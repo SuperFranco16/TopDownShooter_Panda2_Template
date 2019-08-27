@@ -115,36 +115,6 @@ game.module(
 			ship4bullet.body.velocity.y = 2000 * Math.sin(angle - Math.PI);
 			this.sprite.swap(ship4bullet);
 		},
-		dead: function() {
-			var ths = this;
-			if (this.healthbarHP <= 0) {
-				if (this.alive) {
-					this.alive = false;
-					this.healthbar.remove();
-					this.spriteshoot.clear();
-					this.shootbutton.remove();
-					this.subweapontotal.remove();
-					this.sprite.remove();
-					this.body.remove();
-					var explosion = new game.Explosion('explosion.png', this.body.position.x, this.body.position.y, 128, 128);
-					explosion.sprite.addTo(game.scene.container);
-					game.scene.removeObject(this);
-					var tween1 = new game.Tween(ths.deadbox);
-					tween1.to({
-						alpha: 1
-					}, 1500);
-					var tween2 = new game.Tween(ths.deadbox);
-					tween2.to({
-						alpha: 1
-					}, 1000);
-					tween1.chain(tween2);
-					tween2.onComplete(function() {
-						game.system.loadScene('Map');
-					});
-					tween1.start();
-				}
-			}
-		},
 		reset: function(speed) {
 			var ths = this;
 			this.selectTime = false;
@@ -266,7 +236,6 @@ game.module(
 	});
 	game.createClass('playerbullet', 'PhysicsSprite', {
 		// How fast playerbullet moves (pixels in second)
-		speed: 800,
 		init: function(texture, width, height, x, y) {
 			this.anchorCenter();
 			this.body.position.set(x, y);
@@ -300,7 +269,7 @@ game.module(
             //Explosion animation completed, the boom will be destroyed 
             this.sprite.anims.doexplode.onComplete = function() {
 		    ths.sprite.remove();
-                     ths.body.remove();
+            ths.body.remove();
 			game.scene.stage.removeChild(ths);
             };
             
