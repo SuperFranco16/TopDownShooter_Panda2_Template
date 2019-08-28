@@ -29,9 +29,9 @@ game.module(
 			// Right wall
 			new game.Wall(2060, 810, 30, 1650);
 			// Top wall
-			new game.Wall(1030, 0, 2060, 30, 'top');
+			new game.Wall(1030, 0, 2060, 30);
 			// Bottom wall
-			new game.Wall(1030, 1640, 2060, 30, 'bottom');
+			new game.Wall(1030, 1640, 2060, 30);
 			
             //BackScreen
 			this.blackscreen = new game.Graphics();
@@ -107,13 +107,13 @@ game.module(
 			return true;
 		},
 		shoot: function() {
-			var ship4bullet = new game.playerbullet('player_bullet.png', 0, 0, this.sprite.position.x, this.sprite.position.y);
-			ship4bullet.addTo(game.scene.container);
+			var bullet = new game.playerbullet('player_bullet.png', 0, 0, this.sprite.position.x, this.sprite.position.y);
+			bullet.addTo(game.scene.container);
 			var angle = game.input.mouse.angle(this.worldPosition);
-			ship4bullet.rotation = angle - Math.PI / 2;
-			ship4bullet.body.velocity.x = 2000 * Math.cos(angle - Math.PI);
-			ship4bullet.body.velocity.y = 2000 * Math.sin(angle - Math.PI);
-			this.sprite.swap(ship4bullet);
+			bullet.rotation = angle - Math.PI / 2;
+			bullet.body.velocity.x = 2000 * Math.cos(angle - Math.PI);
+			bullet.body.velocity.y = 2000 * Math.sin(angle - Math.PI);
+			this.sprite.swap(bullet);
 		},
 		reset: function(speed) {
 			var ths = this;
