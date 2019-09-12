@@ -282,17 +282,10 @@ game.module(
 			var shape = new game.Rectangle(this.sheet.width, this.sheet.height);
 			this.body.addShape(shape);
 			this.body.addTo(game.scene.world);
-			this.body.collide = this.collide.bind(this);
 		},
 		play: function(anim) {
 			if (this.sprite.currentAnim === this.sprite.anims[anim]) return;
 			this.sprite.play(anim);
-		},
-		collide: function(body) {
-			if (this.hurtplayer && body.collisionGroup === game.Body.PLAYER) {
-				game.scene.player.hurt();
-			}
-			return true;
 		}
 	});
 	game.createClass('Wall', {
